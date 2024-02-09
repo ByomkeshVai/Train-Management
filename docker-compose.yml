@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  app:
+    container_name: examplehkbooks_app
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mongodb+srv://habibthedev:he8LJeYNr0Qqj4Ip@cluster0.dgl95r5.mongodb.net/
+    depends_on:
+      - mongo
+  mongo:
+    container_name: examplehkbooks_mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
