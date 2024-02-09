@@ -13,24 +13,9 @@ const createTrainDB = async (payload: TTrain): Promise<TrainResponse> => {
     {
       $group: {
         _id: '$train_id',
-        stops: {
-          $push: {
-            arrival_time: {
-              $ifNull: ['$stops.arrival_time', '$stops.departure_time'],
-            }, // Use departure_time if arrival_time is null
-            departure_time: '$stops.departure_time',
-          },
-        },
+        service_start: { $min: '$stops.arrival_time' },
+        service_ends: { $max: '$stops.departure_time' },
         num_stations: { $sum: 1 },
-      },
-    },
-    { $unwind: '$stops' },
-    {
-      $group: {
-        _id: '$_id',
-        service_start: { $min: '$stops.arrival_time' }, // Calculate earliest arrival_time
-        service_ends: { $max: '$stops.departure_time' }, // Calculate latest departure_time
-        num_stations: { $first: '$num_stations' },
       },
     },
   ];

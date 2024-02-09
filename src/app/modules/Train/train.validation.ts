@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 const createTrainStopValidation = z.object({
   station_id: z.number(),
-  arrival_time: z.string(),
-  departure_time: z.string(),
+  arrival_time: z.string().nullable(),
+  departure_time: z.string().nullable(),
   fare: z.number(),
 });
 
