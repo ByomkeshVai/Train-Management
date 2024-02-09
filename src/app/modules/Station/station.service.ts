@@ -21,9 +21,18 @@ const createStationDB = async (payload: TStation) => {
   return result;
 };
 
+const getAllStationsFromDB = async () => {
+  try {
+    const result = await Station.find({});
+    return result;
+  } catch (error: any) {
+    throw new AppError(httpStatus.BAD_REQUEST, error.message);
+  }
+};
+
 export const stationServices = {
   createStationDB,
-  // updateBookIntoDB,
+  getAllStationsFromDB,
   // getSingleBookFromDB,
   // getAllBooksFromDB,
 };

@@ -11,4 +11,6 @@ router.post(
   StationController.createStation,
 );
 
+router.get('/', StationController.getAllStations);
+
 export const StationRoutes = router;

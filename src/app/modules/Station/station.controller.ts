@@ -1,3 +1,4 @@
+import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendRequest';
 import { stationServices } from './station.service';
@@ -12,6 +13,17 @@ const createStation = catchAsync(async (req, res) => {
   });
 });
 
+const getAllStations = catchAsync(async (req, res) => {
+  const result = await stationServices.getAllStationsFromDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    data: result,
+  });
+});
+
 export const StationController = {
   createStation,
+  getAllStations,
 };
