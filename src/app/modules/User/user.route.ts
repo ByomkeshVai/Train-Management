@@ -27,4 +27,4 @@ router.post(
 //   BooksController.getAllBooks,
 // );
 
-export const BooksRoute = router;
+export const UserRoutes = router;

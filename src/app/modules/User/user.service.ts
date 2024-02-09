@@ -9,7 +9,7 @@ const createUserDB = async (payload: TUser) => {
   if (existingUser) {
     throw new AppError(
       httpStatus.CONFLICT,
-      'A User with this ID already exists!',
+      `A User with this ${user_id} already exists!`,
     );
   }
   const result = await User.create({ user_id, username, balance });
