@@ -6,7 +6,7 @@ import { UserController } from './user.controller';
 const router = express.Router();
 
 router.post(
-  '/users',
+  '/',
   validateRequest(UsersValidation.CreateUsersValidation),
   UserController.createUser,
 );

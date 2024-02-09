@@ -1,4 +1,4 @@
-import { StationRoute } from './../modules/Station/station.route';
+import { StationRoutes } from './../modules/Station/station.route';
 import { Router } from 'express';
 import { UserRoutes } from '../modules/User/user.route';
 const router = Router();
@@ -10,7 +10,11 @@ const moduleRoutes = [
   },
   {
     path: '/stations',
-    route: StationRoute,
+    route: StationRoutes,
+  },
+  {
+    path: '/trains',
+    route: StationRoutes,
   },
 ];
 
