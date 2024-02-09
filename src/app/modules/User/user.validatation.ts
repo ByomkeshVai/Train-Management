@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const CreateUsersValidation = z.object({
   user_id: z.number(),
-  username: z.string(),
+  user_name: z.string(),
   balance: z.number(),
 });
 

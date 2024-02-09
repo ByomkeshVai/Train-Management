@@ -5,15 +5,6 @@ import { TTrain, TrainResponse } from './train.interface';
 import moment from 'moment';
 
 const createTrainDB = async (payload: TTrain): Promise<TrainResponse> => {
-  payload.stops.forEach((stop) => {
-    if (stop.arrival_time) {
-      stop.arrival_time = stop.arrival_time.trim();
-    }
-    if (stop.departure_time) {
-      stop.departure_time = stop.departure_time.trim();
-    }
-  });
-
   const result = await Train.create(payload);
 
   const aggregationPipeline = [
@@ -22,9 +13,24 @@ const createTrainDB = async (payload: TTrain): Promise<TrainResponse> => {
     {
       $group: {
         _id: '$train_id',
-        service_start: { $min: { $ifNull: ['$stops.arrival_time', '23:59'] } }, // Calculate earliest arrival_time
-        service_ends: { $max: { $ifNull: ['$stops.departure_time', '00:00'] } }, // Calculate latest departure_time
+        stops: {
+          $push: {
+            arrival_time: {
+              $ifNull: ['$stops.arrival_time', '$stops.departure_time'],
+            }, // Use departure_time if arrival_time is null
+            departure_time: '$stops.departure_time',
+          },
+        },
         num_stations: { $sum: 1 },
+      },
+    },
+    { $unwind: '$stops' },
+    {
+      $group: {
+        _id: '$_id',
+        service_start: { $min: '$stops.arrival_time' }, // Calculate earliest arrival_time
+        service_ends: { $max: '$stops.departure_time' }, // Calculate latest departure_time
+        num_stations: { $first: '$num_stations' },
       },
     },
   ];

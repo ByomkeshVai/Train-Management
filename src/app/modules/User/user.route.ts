@@ -1,14 +1,14 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { UsersValidation } from './user.validatation';
-import { UserController } from './user.controller';
+import { walletController } from '../Wallet/wallet.controller';
 
 const router = express.Router();
 
 router.post(
   '/',
   validateRequest(UsersValidation.CreateUsersValidation),
-  UserController.createUser,
+  walletController.createWallet,
 );
 
 // router.put(
