@@ -10,17 +10,29 @@ const walletUserSchema = new Schema<TWalletUser>({
   },
 });
 
-const walletSchema = new Schema<TWallet>({
-  wallet_id: {
-    type: Number,
+const walletSchema = new Schema<TWallet>(
+  {
+    wallet_id: {
+      type: Number,
+    },
+    balance: {
+      type: Number,
+    },
+    wallet_user: {
+      type: walletUserSchema,
+    },
   },
-  balance: {
-    type: Number,
+  {
+    versionKey: false,
+    toJSON: {
+      transform: function (doc, ret) {
+        // eslint-disable-next-line no-self-assign
+        ret.id = ret.id;
+        delete ret._id;
+      },
+    },
   },
-  wallet_user: {
-    type: walletUserSchema,
-  },
-});
+);
 
 const Wallet = model<TWallet>('Wallet', walletSchema);
 

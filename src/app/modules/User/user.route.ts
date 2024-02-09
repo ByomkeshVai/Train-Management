@@ -11,20 +11,4 @@ router.post(
   walletController.createWallet,
 );
 
-// router.put(
-//   '/books/:bookId',
-//   validateRequest(booksValidation.UpdatebooksValidation),
-//   BooksController.updateBook,
-// );
-
-// router.get(
-//   '/books/:bookId',
-//   BooksController.getSingleBook,
-// );
-
-// router.get(
-//   '/books',
-//   BooksController.getAllBooks,
-// );
-
 export const UserRoutes = router;

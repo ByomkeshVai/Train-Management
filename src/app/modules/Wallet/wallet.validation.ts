@@ -10,3 +10,7 @@ export const WalletSchema = z.object({
   balance: z.number(),
   wallet_user: WalletUserSchema,
 });
+
+export const RechargeWalletSchema = z.object({
+  recharge: z.number().int().min(100).max(10000),
+});

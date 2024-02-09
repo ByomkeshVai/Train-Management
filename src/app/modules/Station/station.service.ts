@@ -40,7 +40,7 @@ const getSingleStationFromDB = async (stationId: string) => {
     if (!trains || trains.length === 0) {
       throw new AppError(
         httpStatus.NOT_FOUND,
-        `No trains found for station with id: ${stationId}`,
+        `Trains with ${stationId} is not found `,
       );
     }
 

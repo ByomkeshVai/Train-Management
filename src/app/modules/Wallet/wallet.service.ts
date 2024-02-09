@@ -54,6 +54,51 @@ const createWalletIntoDB = async (payload: TUser) => {
   }
 };
 
+const getSingleWalletFromDB = async (walletId: string) => {
+  try {
+    const wallet = await Wallet.find({ wallet_id: walletId });
+
+    if (!wallet || wallet.length === 0) {
+      throw new AppError(
+        httpStatus.NOT_FOUND,
+        `Wallet with ${walletId} is not found`,
+      );
+    }
+
+    return wallet;
+  } catch (error: any) {
+    throw new AppError(httpStatus.BAD_REQUEST, error.message);
+  }
+};
+
+const getRechargeDB = async (wallet_id: string, recharge: number) => {
+  try {
+    const wallet = await Wallet.findOne({ wallet_id });
+
+    if (!wallet) {
+      throw new AppError(404, `Wallet with ${wallet_id} is not found`);
+    }
+
+    // Validate recharge amount
+    if (recharge < 100 || recharge > 10000) {
+      throw new AppError(
+        400,
+        'Recharge amount must be between 100 and 10000 Taka',
+      );
+    }
+
+    // Add funds to the wallet
+    wallet.balance += recharge;
+    await wallet.save();
+
+    return wallet;
+  } catch (error: any) {
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
 export const walletService = {
   createWalletIntoDB,
+  getSingleWalletFromDB,
+  getRechargeDB,
 };
