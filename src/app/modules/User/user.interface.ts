@@ -6,7 +6,7 @@ export interface TUser {
   balance: number;
 }
 
-export interface BookModel extends Model<TUser> {
+export interface UserModel extends Model<TUser> {
   // eslint-disable-next-line no-unused-vars
-  isBooksExistsByCustomId(user_id: string): Promise<TBooks>;
+  isUserExistsByCustomId(user_id: string): Promise<TUser>;
 }

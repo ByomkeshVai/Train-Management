@@ -2,7 +2,7 @@ import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
 
 import globalError from './app/middlewares/globalError';
-import { BooksRoute } from './app/modules/user.route';
+import { BooksRoute } from './app/modules/User/user.route';
 
 const app: Application = express();
 
