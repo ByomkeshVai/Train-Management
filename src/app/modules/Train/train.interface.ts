@@ -1,5 +1,14 @@
 import { Model } from 'mongoose';
 
+export interface TrainResponse {
+  train_id: number;
+  train_name: string;
+  capacity: number;
+  service_start: string | null;
+  service_ends: string | null;
+  num_stations: number;
+}
+
 export interface TStop {
   station_id: number;
   arrival_time: string | null;
@@ -11,7 +20,7 @@ export interface TTrain {
   train_id: number;
   train_name: string;
   capacity: number;
-  stops: [TStop];
+  stops: TStop[];
 }
 
 export interface TrainModel extends Model<TTrain> {

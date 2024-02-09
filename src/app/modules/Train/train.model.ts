@@ -30,16 +30,16 @@ const trainSchema = new Schema<TTrain, TrainModel>(
   {
     train_id: {
       type: Number,
-      required: [true, 'station id is required'],
+      required: [true, 'train id is required'],
       unique: true,
     },
     train_name: {
       type: String,
-      required: [true, 'station name is required'],
+      required: [true, 'train name is required'],
     },
     capacity: {
       type: Number,
-      required: [true, 'longitude is required'],
+      required: [true, 'capacity is required'],
     },
     stops: [stopTrainSchema],
   },
@@ -47,18 +47,16 @@ const trainSchema = new Schema<TTrain, TrainModel>(
     versionKey: false,
     toJSON: {
       transform: function (doc, ret) {
-        // eslint-disable-next-line no-self-assign
-        ret.id = ret.id;
         delete ret._id;
       },
     },
   },
 );
 
-trainSchema.statics.isStationExistsByCustomId = async function (
+trainSchema.statics.isTrainExistsByCustomId = async function (
   train_id: number,
 ) {
-  return await Train.findOne({ train_id });
+  return await this.findOne({ train_id });
 };
 
 const Train = model<TTrain, TrainModel>('Train', trainSchema);
