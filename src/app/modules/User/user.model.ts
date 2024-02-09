@@ -8,7 +8,7 @@ const userSchema = new Schema<TUser, UserModel>(
       required: [true, 'User Id is required'],
       unique: true,
     },
-    username: {
+    user_name: {
       type: String,
       required: [true, 'username is required'],
     },

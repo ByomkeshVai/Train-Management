@@ -12,5 +12,6 @@ router.post(
 );
 
 router.get('/', StationController.getAllStations);
+router.get('/:stationId/trains', StationController.getSingleStation);
 
 export const StationRoutes = router;

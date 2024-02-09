@@ -4,7 +4,7 @@ import { TUser } from './user.interface';
 import User from './user.model';
 
 const createUserDB = async (payload: TUser) => {
-  const { user_id, username, balance } = payload;
+  const { user_id, user_name, balance } = payload;
   const existingUser = await User.findOne({ user_id });
   if (existingUser) {
     throw new AppError(
@@ -12,7 +12,7 @@ const createUserDB = async (payload: TUser) => {
       `A User with this ${user_id} already exists!`,
     );
   }
-  const result = await User.create({ user_id, username, balance });
+  const result = await User.create({ user_id, user_name, balance });
   return result;
 };
 

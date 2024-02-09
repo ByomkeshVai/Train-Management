@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 
 export interface TUser {
   user_id: number;
-  username: string;
+  user_name: string;
   balance: number;
 }
 

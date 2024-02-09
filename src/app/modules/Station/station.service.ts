@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { TStation } from './station.interface';
 import Station from './station.model';
 import AppError from '../../errors/AppError';
+import Train from '../Train/train.model';
 
 const createStationDB = async (payload: TStation) => {
   const { station_id, station_name, latitude, longitude } = payload;
@@ -30,9 +31,41 @@ const getAllStationsFromDB = async () => {
   }
 };
 
+const getSingleStationFromDB = async (stationId: string) => {
+  try {
+    const trains = await Train.find({
+      'stops.station_id': parseInt(stationId),
+    });
+
+    if (!trains || trains.length === 0) {
+      throw new AppError(
+        httpStatus.NOT_FOUND,
+        `No trains found for station with id: ${stationId}`,
+      );
+    }
+
+    const response = {
+      station_id: stationId,
+      trains: trains.map((train) => ({
+        train_id: train.train_id,
+        arrival_time:
+          train.stops.find((stop) => stop.station_id === parseInt(stationId))
+            ?.arrival_time || '',
+        departure_time:
+          train.stops.find((stop) => stop.station_id === parseInt(stationId))
+            ?.departure_time || '',
+      })),
+    };
+
+    return response;
+  } catch (error: any) {
+    throw new AppError(httpStatus.BAD_REQUEST, error.message);
+  }
+};
+
 export const stationServices = {
   createStationDB,
   getAllStationsFromDB,
-  // getSingleBookFromDB,
+  getSingleStationFromDB,
   // getAllBooksFromDB,
 };
