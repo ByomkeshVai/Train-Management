@@ -1,10 +1,13 @@
-import httpStatus from 'http-status';
-import AppError from '../../errors/AppError';
 import Train from './train.model';
 import { TTrain, TrainResponse } from './train.interface';
 import moment from 'moment';
+import AppError from '../../errors/AppError';
 
 const createTrainDB = async (payload: TTrain): Promise<TrainResponse> => {
+  const userExists = await Train.findOne({ train_id: payload.train_id });
+  if (userExists) {
+    throw new AppError(409, `Train with ${payload.train_id} is already Exists`);
+  }
   const result = await Train.create(payload);
 
   const aggregationPipeline = [

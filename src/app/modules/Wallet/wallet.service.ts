@@ -19,7 +19,7 @@ const createWalletIntoDB = async (payload: TUser) => {
     // Check if user exists
     const userExists = await User.findOne({ user_id: payload.user_id });
     if (userExists) {
-      throw new AppError(409, 'User Already Exists');
+      throw new AppError(409, `User with ${payload.user_id} is already Exists`);
     }
 
     // Create the user
@@ -45,7 +45,10 @@ const createWalletIntoDB = async (payload: TUser) => {
     return createdWallet;
   } catch (error) {
     await session.abortTransaction();
-    throw new AppError(httpStatus.BAD_REQUEST, 'This User is already Exists');
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `User with ${payload.user_id} is already Exists`,
+    );
   } finally {
     session.endSession();
   }
